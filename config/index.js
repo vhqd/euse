@@ -38,11 +38,11 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/clinet.html'),
+    index: path.resolve(__dirname, '../../server/views/client.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'public/client',
+    assetsSubDirectory: '../../server/public/client',
     assetsPublicPath: './',
 
     /**
