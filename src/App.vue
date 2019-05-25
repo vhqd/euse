@@ -124,7 +124,7 @@ export default {
     top: -0.01rem;
     backface-visibility: hidden;
     perspective: 1000;
-    padding-bottom: 1rem;
+    margin-bottom: 2.5rem;
   }
   .slide-left-enter,
   .slide-right-leave-active {

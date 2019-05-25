@@ -14,6 +14,14 @@ import 'muse-ui/dist/muse-ui.css'
 import 'vant/lib/index.css'
 import './common/css/base.css'
 
+import { Lazyload } from 'vant';
+ Vue.use(Lazyload, {
+  preLoad: 1.3,
+  error: 'static/images/error.jpg',
+  loading: 'static/images/loading.gif',
+  attempt: 3
+})
+
 Vue.use(MuseUI)
 Vue.use(Vant)
 Vue.use(Vuex)
