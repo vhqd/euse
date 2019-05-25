@@ -8,10 +8,12 @@
     </transition>
 
     <van-tabbar v-model="active" v-if="tabbarShow">
-      <van-tabbar-item icon="home-o" @click="toHome()">主页</van-tabbar-item>
-      <van-tabbar-item icon="search" dot @click="toSearch()">搜索</van-tabbar-item>
-      <van-tabbar-item icon="friends-o" info="5" @click="toFriend()">朋友</van-tabbar-item>
-      <van-tabbar-item icon="setting-o" info="20" @click="toMe()">我</van-tabbar-item>
+      <van-tabbar-item icon="fire" @click="toHome()">主页</van-tabbar-item>
+      <van-tabbar-item icon="smile-comment" @click="toCurrent()">Javascript</van-tabbar-item>
+      <van-tabbar-item icon="manager" dot @click="toMe()">我</van-tabbar-item>
+      <!-- <van-tabbar-item icon="smile-comment" dot @click="toCurrent()">Javascript</van-tabbar-item>
+      <van-tabbar-item icon="manager" info="20" @click="toMe()">我</van-tabbar-item>-->
+      <!-- <van-tabbar-item icon="friends-o" info="5" @click="toFriend()">朋友</van-tabbar-item> -->
     </van-tabbar>
   </div>
 </template>
@@ -22,7 +24,7 @@ export default {
   data() {
     return {
       active: 0,
-      transitionTime:0,//Tabbar切换页面时不使用动画
+      transitionTime: 0, //Tabbar切换页面时不使用动画
       /* keepAlive: "home", //需要缓存的页面 例如首页 */
       transitionName: "slide-right" //初始过渡动画方向
     };
@@ -31,8 +33,8 @@ export default {
     toHome() {
       this.$router.replace({ path: "/home" });
     },
-    toSearch() {
-      this.$router.replace({ path: "/search" });
+    toCurrent() {
+      this.$router.replace({ path: "/current" });
     },
     toFriend() {
       this.$router.replace({ path: "/friend" });
@@ -59,32 +61,42 @@ export default {
   },
   mounted() {
     this.initRefresh();
+    let path = this.$route.path;
+    if (path == "/" || path == "/index" || path == "/home") {
+      this.active = 0;
+    }
+    if (path == "/current") {
+      this.active = 1;
+    }
+    if (path == "/me") {
+      this.active = 2;
+    }
   },
   watch: {
     $route(to, from) {
       this.initRefresh();
       console.log(to.path);
-      
+      let path = to.path;
       //判断是否显示tabbar和页面显示动画时间
       if (
-        to.path == "/" ||
-        to.path == "/index" ||
-        to.path == "/home" ||
-        to.path == "/search" ||
-        to.path == "/friend" ||
-        to.path == "/me"
+        path == "/" ||
+        path == "/index" ||
+        path == "/home" ||
+        path == "/current" ||
+        path == "/friend" ||
+        path == "/me"
       ) {
         this.$store.commit("updateTabbarShow", true);
-        this.transitionTime = 0
+        this.transitionTime = 0;
       } else {
         this.$store.commit("updateTabbarShow", false);
-        this.transitionTime = 0.377
+        this.transitionTime = 0.377;
       }
 
       // 切换动画
       let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
       console.log(this.$router);
-      
+
       if (isBack) {
         this.transitionName = "slide-left";
       } else {
