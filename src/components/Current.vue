@@ -28,12 +28,12 @@ export default {
     TreeView
   },
   mounted() {
-    services.testAxios().then(res => {
+   /*  services.testAxios().then(res => {
       if (res.status === 200) {
         //console.log(res);
         //console.log(res.data.links);
       }
-    });
+    }); */
   },
   methods: {
     showFun() {

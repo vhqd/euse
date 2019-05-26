@@ -10,55 +10,23 @@
     </van-swipe>
 
     <van-row type="flex" justify="center" class="lists-box">
-      <van-col span="8" class="lists">
+      <van-col span="8" class="lists" v-for="(item,index) in category" :key="index">
         <img
           src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
           alt
           width="50%"
         >
-        <span>JavaScript</span>
-      </van-col>
-      <van-col span="8" class="lists">
-        <img
-          src="//m.360buyimg.com/mobilecms/s120x120_jfs/t1/9404/17/15339/4473/5c6fdeb9E665eea5c/893de1d0221540eb.png.webp"
-          alt
-          width="50%"
-        >
-        <span>HTML5</span>
-      </van-col>
-      <van-col span="8" class="lists">
-        <img
-          src="//m.360buyimg.com/mobilecms/s120x120_jfs/t16990/157/2001547525/17770/a7b93378/5ae01befN2494769f.png.webp"
-          alt
-          width="50%"
-        >
-        <span>JavaScript</span>
+        <span>{{item.categoryname}}</span>
       </van-col>
     </van-row>
     <van-row type="flex" justify="center" class="lists-box">
-      <van-col span="8" class="lists">
+      <van-col span="8" class="lists" v-for="(item,index) in category1" :key="index">
         <img
           src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
           alt
           width="50%"
         >
-        <span>JavaScript</span>
-      </van-col>
-      <van-col span="8" class="lists">
-        <img
-          src="//m.360buyimg.com/mobilecms/s120x120_jfs/t16990/157/2001547525/17770/a7b93378/5ae01befN2494769f.png.webp"
-          alt
-          width="50%"
-        >
-        <span>JavaScript</span>
-      </van-col>
-      <van-col span="8" class="lists">
-        <img
-          src="//m.360buyimg.com/mobilecms/s120x120_jfs/t1/9404/17/15339/4473/5c6fdeb9E665eea5c/893de1d0221540eb.png.webp"
-          alt
-          width="50%"
-        >
-        <span>HTML5</span>
+        <span>{{item.categoryname}}</span>
       </van-col>
     </van-row>
     <div class="article-list">
@@ -82,6 +50,7 @@
 </template>
 
 <script>
+import service from "../service";
 export default {
   data() {
     return {
@@ -89,6 +58,8 @@ export default {
       error: false,
       loading: false,
       finished: false,
+      category:[],
+      category1:[],
       list: [
         {
           title: "标题标题标题标题标题标题标题标题标题标题标题",
@@ -101,6 +72,9 @@ export default {
         "https://img.yzcdn.cn/2.jpg",
         "https://img.yzcdn.cn/2.jpg",
         "https://img.yzcdn.cn/2.jpg"
+      ],
+      img:[
+        '//m.360buyimg.com/mobilecms/s120x120_jfs/t1/9404/17/15339/4473/5c6fdeb9E665eea5c/893de1d0221540eb.png.webp'
       ]
     };
   },
@@ -141,6 +115,17 @@ export default {
         window.scrollTo(0, 10);
       }, 1000);
     }
+  },
+  mounted() {
+    service
+      .getseccategory()
+      .then(res => {
+        this.category = res.data.data.category.slice(0,3)
+        this.category1 = res.data.data.category.slice(3,6)
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
@@ -156,10 +141,10 @@ export default {
   box-shadow: 0px 0px 6px rgba(95, 95, 95, 0.1);
   margin: 10px;
   background: #fff;
-  padding: 10px 15px;
+  padding: 10px 5px;
 }
 .article-list .van-cell {
-  padding: 10px 0px;
+  padding: 0 10px 0px;
 }
 .lists {
   text-align: center;
@@ -182,7 +167,7 @@ export default {
   height: 1.6rem;
 }
 .new-info {
-  margin: 13px 20px;
+  margin: 13px 20px 0;
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
   color: #2c3e50;

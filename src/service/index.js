@@ -1,7 +1,8 @@
 import axios from 'axios'
+let host = 'http://192.168.0.110:3000'
 
 export default {
-    testAxios: () => {
-        return axios.get('api/login')
+    getseccategory: () => {
+        return axios.get(host +'/api/category/getlevel')
     }
 }

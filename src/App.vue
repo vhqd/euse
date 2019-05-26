@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       active: 0,
-      transitionTime: 0, //Tabbar切换页面时不使用动画
+      transitionTime: 0.377, //Tabbar切换页面时不使用动画
       times:0.377,
       /* keepAlive: "home", //需要缓存的页面 例如首页 */
       transitionName: "slide-right" //初始过渡动画方向
@@ -80,7 +80,6 @@ export default {
       let path = to.path;
        // 切换动画
       let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
-      isBack = false;//进入其他页面返回首页之后设置为false，不然再切换Tabbar会出现动画
       //console.log(this.$router);
       //console.log(this.$router.isBack);
       
@@ -94,14 +93,14 @@ export default {
         path == "/me"
       ) {
         this.$store.commit("updateTabbarShow", true);
-        if(isBack){//Tabbar切换没有动画其他页面切换和返回均有动画
+      /*   if(isBack){//Tabbar切换没有动画其他页面切换和返回均有动画
           this.transitionTime = this.times;
         }else{
           this.transitionTime = 0 ;
-        }
+        } */
       } else {
         this.$store.commit("updateTabbarShow", false);
-        this.transitionTime = this.times;
+        //this.transitionTime = this.times;
       }
 
       if (isBack) {
