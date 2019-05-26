@@ -10,7 +10,7 @@
     <van-tabbar v-model="active" v-if="tabbarShow">
       <van-tabbar-item icon="fire" @click="toHome()">主页</van-tabbar-item>
       <van-tabbar-item icon="smile-comment" @click="toCurrent()">Javascript</van-tabbar-item>
-      <van-tabbar-item icon="manager" dot @click="toMe()">我</van-tabbar-item>
+      <van-tabbar-item icon="manager" @click="toMe()">关于</van-tabbar-item>
       <!-- <van-tabbar-item icon="smile-comment" dot @click="toCurrent()">Javascript</van-tabbar-item>
       <van-tabbar-item icon="manager" info="20" @click="toMe()">我</van-tabbar-item>-->
       <!-- <van-tabbar-item icon="friends-o" info="5" @click="toFriend()">朋友</van-tabbar-item> -->
@@ -25,6 +25,7 @@ export default {
     return {
       active: 0,
       transitionTime: 0, //Tabbar切换页面时不使用动画
+      times:0.377,
       /* keepAlive: "home", //需要缓存的页面 例如首页 */
       transitionName: "slide-right" //初始过渡动画方向
     };
@@ -77,6 +78,12 @@ export default {
       this.initRefresh();
       console.log(to.path);
       let path = to.path;
+       // 切换动画
+      let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
+      isBack = false;//进入其他页面返回首页之后设置为false，不然再切换Tabbar会出现动画
+      //console.log(this.$router);
+      //console.log(this.$router.isBack);
+      
       //判断是否显示tabbar和页面显示动画时间
       if (
         path == "/" ||
@@ -87,15 +94,15 @@ export default {
         path == "/me"
       ) {
         this.$store.commit("updateTabbarShow", true);
-        this.transitionTime = 0;
+        if(isBack){//Tabbar切换没有动画其他页面切换和返回均有动画
+          this.transitionTime = this.times;
+        }else{
+          this.transitionTime = 0 ;
+        }
       } else {
         this.$store.commit("updateTabbarShow", false);
-        this.transitionTime = 0.377;
+        this.transitionTime = this.times;
       }
-
-      // 切换动画
-      let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
-      console.log(this.$router);
 
       if (isBack) {
         this.transitionName = "slide-left";
@@ -124,7 +131,6 @@ export default {
     top: -0.01rem;
     backface-visibility: hidden;
     perspective: 1000;
-    margin-bottom: 2.5rem;
   }
   .slide-left-enter,
   .slide-right-leave-active {

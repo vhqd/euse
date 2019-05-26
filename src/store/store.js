@@ -11,7 +11,8 @@ export default new Vuex.Store({
     state: {
         tabbarShow: true,//控制是否显示Tabbar
         menu: false,//左侧menu
-        tabbarPath: ['/', '/home', '/search', '/friend', '/me'],//用于Tabbar的active效果
+        tabbarPath: ['/', '/home', '/current', '/me'],//用于Tabbar的active效果
+      /*   tabbarPath: ['/', '/home', '/current', '/friend', '/me'],//用于Tabbar的active效果 */
         detailContent:null
     },
 

@@ -5,7 +5,7 @@
     </form>
     <van-swipe :autoplay="3000">
       <van-swipe-item v-for="(image, index) in images" :key="index">
-        <img v-lazy="image">
+        <img :src="image" width="100%">
       </van-swipe-item>
     </van-swipe>
 
@@ -61,32 +61,23 @@
         <span>HTML5</span>
       </van-col>
     </van-row>
-    <p class="new-info">最近更新</p>
-    <van-card
-      desc="描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息"
-      title="标题标题标题标题标题表头不投不投投标不把他"
-      thumb="https://img.yzcdn.cn/2.jpg"
-    />
-    <van-card
-      desc="描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息"
-      title="标题标题标题标题标题表头不投不投投标不把他"
-      thumb="https://img.yzcdn.cn/2.jpg"
-    />
-    <van-card
-      desc="描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息"
-      title="标题标题标题标题标题表头不投不投投标不把他"
-      thumb="https://img.yzcdn.cn/2.jpg"
-    />
-    <van-card
-      desc="描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息"
-      title="标题标题标题标题标题表头不投不投投标不把他"
-      thumb="https://img.yzcdn.cn/2.jpg"
-    />
-    <van-card
-      desc="描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息"
-      title="标题标题标题标题标题表头不投不投投标不把他"
-      thumb="https://img.yzcdn.cn/2.jpg"
-    />
+    <div class="article-list">
+      <p class="new-info">最近更新</p>
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <router-link to="/detail">
+          <van-cell>
+            <van-card
+              v-for="(item,index) in list"
+              :key="index"
+              :price="item.time"
+              :desc="item.desc"
+              :title="item.title"
+              :thumb="item.img"
+            />
+          </van-cell>
+        </router-link>
+      </van-list>
+    </div>
   </div>
 </template>
 
@@ -95,6 +86,17 @@ export default {
   data() {
     return {
       value: "",
+      error: false,
+      loading: false,
+      finished: false,
+      list: [
+        {
+          title: "标题标题标题标题标题标题标题标题标题标题标题",
+          desc: "描述描述描述描述描述描述描述描述",
+          time: "2019-02-02",
+          img: "https://img.yzcdn.cn/2.jpg"
+        }
+      ],
       images: [
         "https://img.yzcdn.cn/2.jpg",
         "https://img.yzcdn.cn/2.jpg",
@@ -108,6 +110,36 @@ export default {
     },
     onCancel() {
       this.$toast("清除文本框");
+    },
+    onLoad() {
+      // 异步更新数据
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push({
+            title: "描述描述描述描述描述描述描述描述描述",
+            desc: "描述描述描述描述描述描述描述描述",
+            time: "2019-02-02",
+            img: "https://img.yzcdn.cn/2.jpg"
+          });
+        }
+        // 加载状态结束
+        this.loading = false;
+
+        // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true;
+        }
+      }, 500);
+    },
+    onRefresh(index) {
+      const list = this.list[index];
+      setTimeout(() => {
+        list.items = [];
+        list.error = false;
+        list.finished = false;
+        list.refreshing = false;
+        window.scrollTo(0, 10);
+      }, 1000);
     }
   }
 };
@@ -119,6 +151,15 @@ export default {
 }
 .lists-box {
   margin-top: 0.15rem;
+}
+.van-card {
+  box-shadow: 0px 0px 6px rgba(95, 95, 95, 0.1);
+  margin: 10px;
+  background: #fff;
+  padding: 10px 15px;
+}
+.article-list .van-cell {
+  padding: 10px 0px;
 }
 .lists {
   text-align: center;
@@ -137,6 +178,9 @@ export default {
 .van-card__content {
   height: auto;
 }
+.van-card__thumb img {
+  height: 1.6rem;
+}
 .new-info {
   margin: 13px 20px;
   padding-bottom: 10px;
@@ -144,5 +188,11 @@ export default {
   color: #2c3e50;
   font-size: 17px;
   font-weight: bold;
+}
+.article-list {
+  padding-bottom: 1rem;
+}
+.van-card__thumb {
+  width: 40%;
 }
 </style>
