@@ -36,20 +36,20 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
-        :offset="50"
+        :offset="10"
       >
-        <router-link to="/detail">
-          <van-cell>
-            <van-card
-              v-for="(item,index) in list"
-              :key="index"
-              :price="item.creatat"
-              :desc="item.desc"
-              :title="item.title"
-              thumb="https://img.yzcdn.cn/2.jpg"
-            />
-          </van-cell>
-        </router-link>
+        <div v-for="(item,index) in list" :key="index">
+          <router-link :to="{name:'detail',query:{id:item._id}}">
+            <van-cell>
+              <van-card
+                :price="item.creatat"
+                :desc="item.desc"
+                :title="item.title"
+                thumb="https://img.yzcdn.cn/2.jpg"
+              />
+            </van-cell>
+          </router-link>
+        </div>
       </van-list>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
     onLoad() {
       this.page.currentPage += 1;
       //一共只能请求15条
-      if(this.page.currentPage <= 5){
+      if (this.page.currentPage <= 5) {
         this.getNewArticle();
       }
     },
