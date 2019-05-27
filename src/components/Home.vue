@@ -31,16 +31,22 @@
     </van-row>
     <div class="article-list">
       <p class="new-info">最近更新</p>
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        :offset="50"
+      >
         <router-link to="/detail">
           <van-cell>
             <van-card
               v-for="(item,index) in list"
               :key="index"
-              :price="item.time"
+              :price="item.creatat"
               :desc="item.desc"
               :title="item.title"
-              :thumb="item.img"
+              thumb="https://img.yzcdn.cn/2.jpg"
             />
           </van-cell>
         </router-link>
@@ -58,23 +64,20 @@ export default {
       error: false,
       loading: false,
       finished: false,
-      category:[],
-      category1:[],
-      list: [
-        {
-          title: "标题标题标题标题标题标题标题标题标题标题标题",
-          desc: "描述描述描述描述描述描述描述描述",
-          time: "2019-02-02",
-          img: "https://img.yzcdn.cn/2.jpg"
-        }
-      ],
+      category: [],
+      category1: [],
+      list: [],
+      page: {
+        pageSize: 3,
+        currentPage: 0
+      },
       images: [
         "https://img.yzcdn.cn/2.jpg",
         "https://img.yzcdn.cn/2.jpg",
         "https://img.yzcdn.cn/2.jpg"
       ],
-      img:[
-        '//m.360buyimg.com/mobilecms/s120x120_jfs/t1/9404/17/15339/4473/5c6fdeb9E665eea5c/893de1d0221540eb.png.webp'
+      img: [
+        "//m.360buyimg.com/mobilecms/s120x120_jfs/t1/9404/17/15339/4473/5c6fdeb9E665eea5c/893de1d0221540eb.png.webp"
       ]
     };
   },
@@ -86,24 +89,11 @@ export default {
       this.$toast("清除文本框");
     },
     onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push({
-            title: "描述描述描述描述描述描述描述描述描述",
-            desc: "描述描述描述描述描述描述描述描述",
-            time: "2019-02-02",
-            img: "https://img.yzcdn.cn/2.jpg"
-          });
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+      this.page.currentPage += 1;
+      //一共只能请求15条
+      if(this.page.currentPage <= 5){
+        this.getNewArticle();
+      }
     },
     onRefresh(index) {
       const list = this.list[index];
@@ -114,14 +104,37 @@ export default {
         list.refreshing = false;
         window.scrollTo(0, 10);
       }, 1000);
+    },
+    getNewArticle() {
+      service
+        .newarticle(this.page)
+        .then(res => {
+          // 加载状态结束
+          let lent = parseInt(res.data.data.articles.length);
+          this.loading = false;
+          if (lent > 0) {
+            console.log("=========" + lent);
+            if (this.list.length == 0) {
+              this.list = res.data.data.articles;
+            } else {
+              this.list.push(res.data.data.articles[0]);
+            }
+            // 数据全部加载完成
+          } else {
+            this.finished = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   mounted() {
     service
       .getseccategory()
       .then(res => {
-        this.category = res.data.data.category.slice(0,3)
-        this.category1 = res.data.data.category.slice(3,6)
+        this.category = res.data.data.category.slice(0, 3);
+        this.category1 = res.data.data.category.slice(3, 6);
       })
       .catch(err => {
         console.log(err);
