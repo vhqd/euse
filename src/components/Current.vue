@@ -7,13 +7,16 @@
     <van-popup v-model="menu" position="left" :overlay-style="overlayStyle" @close="whenClose">
       <Tree-view></Tree-view>
     </van-popup>
-    {{this.$store.getters.getDetailContent}}
+    <div v-html="content.content" style="padding:10px 10px 50px 10px"></div>
+    
   </div>
 </template>
 
 <script>
 import TreeView from "./TreeView";
 import services from "../service/index.js";
+import store from "../store/store.js";
+
 export default {
   data() {
     return {
@@ -27,8 +30,11 @@ export default {
   components: {
     TreeView
   },
+  activated() {
+    this.getmenus();
+  },
   mounted() {
-   /*  services.testAxios().then(res => {
+    /*  services.testAxios().then(res => {
       if (res.status === 200) {
         //console.log(res);
         //console.log(res.data.links);
@@ -36,26 +42,82 @@ export default {
     }); */
   },
   methods: {
+    getmenus() {
+      let id = this.$route.query.id;
+      services
+        .getcate({ id: id })
+        .then(res => {
+          let cate = res.data.data.category;
+          for (let i = 0; i < cate.length; i++) {
+            cate[i]["id"] = i + 1;
+            cate[i]["type"] = "button";
+            cate[i]["name"] = cate[i]["categoryname"];
+            if (i == 0) {
+              cate[i]["isExpanded"] = true;
+            } else {
+              cate[i]["isExpanded"] = false;
+            }
+            cate[i]["isSelected"] = false;
+            cate[i]["catelevel"] = 1;
+            let data = {
+              _id: cate[i]._id,
+              currentPage: 1,
+              pageSize: 99
+            };
+            services
+              .getarticles(data)
+              .then(res => {
+                let datas = res.data.data.articles;
+                for (let j = 0; j < datas.length; j++) {
+                  datas[j]["type"] = "link";
+                  datas[j]["id"] = i + 1;
+                  datas[j]["name"] = datas[j]["title"];
+                  datas[j]["catelevel"] = 2;
+                  datas[j]["url"] = "/current/tutorial";
+                }
+                cate[i]["subMenu"] = datas;
+              })
+              .catch(err => {
+                console.log(err);
+                this.$message.error("失败", err);
+              });
+          }
+          console.log("====================");
+          console.log(cate);
+          store.commit("setMenus", cate);
+          this.content = this.$store.getters.getDetailContent
+        })
+        .catch(err => {});
+    },
     showFun() {
       this.$router.push("/detail");
     },
     onClickMenu() {
       this.$store.commit("setMenu", true);
-    } ,
-    whenClose(){
-      this.$store.commit("setMenu",false)
+    },
+    whenClose() {
+      this.$store.commit("setMenu", false);
     }
   },
   computed: {
-    menu:{
+    menu: {
       get() {
         return this.$store.getters.getMenu;
       },
       set() {
         this.$store.state.menu = false;
       }
+    },
+    content:{
+      get() {
+         return store.getters.getDetailContent || {}
+      },
+      set() {
+        store.commit("setDetailContent",menu);
+      }
+     
     }
-  } 
+  }
 };
 </script>
 
@@ -69,23 +131,23 @@ export default {
 .van-icon-wap-nav:before {
   font-size: 0.5rem;
 }
-::-webkit-scrollbar{
-    width:2px !important;
-    height:0 !important;
-    background-color: #61B6EB !important;
+::-webkit-scrollbar {
+  width: 2px !important;
+  height: 0 !important;
+  background-color: #61b6eb !important;
 }
-::-webkit-scrollbar-track{
-    background: #213147 !important;
-    border-radius:2px !important;
+::-webkit-scrollbar-track {
+  background: #213147 !important;
+  border-radius: 2px !important;
 }
-::-webkit-scrollbar-thumb{
-    background: #61B6EB !important;
-    border-radius:2px !important;
+::-webkit-scrollbar-thumb {
+  background: #61b6eb !important;
+  border-radius: 2px !important;
 }
-::-webkit-scrollbar-thumb:hover{
-    background: #61B6EB !important;
+::-webkit-scrollbar-thumb:hover {
+  background: #61b6eb !important;
 }
-::-webkit-scrollbar-corner{
-    background: #61B6EB !important;
+::-webkit-scrollbar-corner {
+  background: #61b6eb !important;
 }
 </style>

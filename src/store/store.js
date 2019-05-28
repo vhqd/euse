@@ -13,7 +13,8 @@ export default new Vuex.Store({
         menu: false,//左侧menu
         tabbarPath: ['/', '/home', '/current', '/me'],//用于Tabbar的active效果
       /*   tabbarPath: ['/', '/home', '/current', '/friend', '/me'],//用于Tabbar的active效果 */
-        detailContent:null
+        detailContent:null,
+        menus:[]
     },
 
     getters: {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
         },
         setMenu(state,payload){
             state.menu = payload
+        },
+        setMenus(state,payload){
+            state.menus = payload
         },
         setDetailContent(state,payload){
             state.detailContent = payload

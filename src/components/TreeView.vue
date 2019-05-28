@@ -13,7 +13,8 @@ export default {
   name: "TreeViewMenu",
   data() {
     return {
-      menus: this.$store.state.menusModule.menus
+     /*  menus: this.$store.state.menusModule.menus */
+      menus: this.$store.state.menus
     };
   }
 };

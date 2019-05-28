@@ -11,4 +11,10 @@ export default {
     getonearticle: (data) => {
         return axios.post(host +'/api/article/getonearticle',data)
     },
+    getcate: (data) => {
+        return axios.post(host +'/api/category/getcate',data)
+    },
+    getarticles:(data)=>{
+        return axios.post(host+'/api/article/articles',data)
+    }
 }

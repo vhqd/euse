@@ -1,6 +1,6 @@
 <template>
   <div class="tree-view-item">
-    <div class="level" :class="'level-'+ menu.level" v-for="menu in menus" :key="menu.id">
+    <div class="level" :class="'level-'+ menu.catelevel" v-for="menu in menus" :key="menu._id">
       <div v-if="menu.type === 'link'">
         <!-- <router-link class="link" v-bind:to="menu.url" @click.native="toggle(menu)">{{menu.name}}</router-link> -->
         <div class="link" v-bind:to="menu.url" @click="toggle(menu)">{{menu.name}}</div>
