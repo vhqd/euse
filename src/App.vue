@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       active: 0,
-      transitionTime: 0.377, //Tabbar切换页面时不使用动画
-      times:0.377,
+      transitionTime: .3, //Tabbar切换页面时不使用动画
+      times: .3,
       /* keepAlive: "home", //需要缓存的页面 例如首页 */
       transitionName: "slide-right" //初始过渡动画方向
     };
@@ -78,11 +78,11 @@ export default {
       this.initRefresh();
       console.log(to.path);
       let path = to.path;
-       // 切换动画
+      // 切换动画
       let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
       //console.log(this.$router);
       //console.log(this.$router.isBack);
-      
+
       //判断是否显示tabbar和页面显示动画时间
       if (
         path == "/" ||
@@ -104,9 +104,9 @@ export default {
       }
 
       if (isBack) {
-        this.transitionName = "slide-left";
+        this.transitionName = "fade";
       } else {
-        this.transitionName = "slide-right";
+        this.transitionName = "fade";
       }
       this.$router.isBack = false;
     }
@@ -141,6 +141,14 @@ export default {
   .slide-right-enter {
     opacity: 0;
     transform: translate3d(100%, 0, 0);
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.1s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 }
 </style>

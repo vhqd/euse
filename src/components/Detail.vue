@@ -1,29 +1,54 @@
 <template>
   <div>
     <van-nav-bar
-      title="标题"
+      :title="article.title"
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
+      :fixed="true"
     />
-    我是详情页哦
+    <div class="article-content" v-html="article.content"></div>
   </div>
 </template>
 
 <script>
-export default {
-    data(){
-        return{
+import service from "./../service";
 
-        }
+export default {
+  data() {
+    return {
+      article: ""
+    };
+  },
+  methods: {
+    onClickLeft() {
+      this.$router.back(-1);
+      this.$router.isBack = false;
+      console.log(this.$router.isBack);
     },
-    methods: {
-        onClickLeft(){
-            this.$router.back(-1);
-            this.$router.isBack = false;
-            console.log(this.$router.isBack);
-            
-        }
-    },
-}
+    getonearticle(id) {
+      service
+        .getonearticle(id)
+        .then(res => {
+          this.article = res.data.data.article;
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  activated() {
+    let id = this.$route.query.id;
+    this.getonearticle({ id: id });
+    console.log(id);
+  },
+  mounted() {}
+};
 </script>
+
+<style scoped>
+.article-content {
+  padding: 55px 10px 0px 10px;
+}
+</style>

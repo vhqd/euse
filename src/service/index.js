@@ -7,5 +7,8 @@ export default {
     },
     newarticle: (data) => {
         return axios.post(host +'/api/article/newarticle',data)
-    }
+    },
+    getonearticle: (data) => {
+        return axios.post(host +'/api/article/getonearticle',data)
+    },
 }

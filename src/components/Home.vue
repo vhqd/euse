@@ -10,24 +10,32 @@
     </van-swipe>
 
     <van-row type="flex" justify="center" class="lists-box">
-      <van-col span="8" class="lists" v-for="(item,index) in category" :key="index">
-        <img
-          src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
-          alt
-          width="50%"
-        >
-        <span>{{item.categoryname}}</span>
-      </van-col>
+      <div v-for="(item,index) in category" :key="index" style="width:100%;">
+        <router-link tag="div" :to="{name:'current',query:{id:item._id}}" style="width:100%;height:100%;">
+          <van-col span="24" class="lists">
+            <img
+              src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
+              alt
+              width="50%"
+            >
+            <span>{{item.categoryname}}</span>
+          </van-col>
+        </router-link>
+      </div>
     </van-row>
     <van-row type="flex" justify="center" class="lists-box">
-      <van-col span="8" class="lists" v-for="(item,index) in category1" :key="index">
-        <img
-          src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
-          alt
-          width="50%"
-        >
-        <span>{{item.categoryname}}</span>
-      </van-col>
+      <div v-for="(item,index) in category1" :key="index" style="width:100%;">
+        <router-link tag="div" :to="{name:'current',query:{id:item._id}}" style="width:100%;height:100%;">
+          <van-col span="24" class="lists">
+            <img
+              src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
+              alt
+              width="50%"
+            >
+            <span>{{item.categoryname}}</span>
+          </van-col>
+        </router-link>
+      </div>
     </van-row>
     <div class="article-list">
       <p class="new-info">最近更新</p>
@@ -91,7 +99,7 @@ export default {
     onLoad() {
       this.page.currentPage += 1;
       console.log(111111111);
-      
+
       //一共只能请求15条
       if (this.page.currentPage <= 5) {
         this.getNewArticle();
