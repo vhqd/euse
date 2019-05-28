@@ -11,7 +11,11 @@
 
     <van-row type="flex" justify="center" class="lists-box">
       <div v-for="(item,index) in category" :key="index" style="width:100%;">
-        <router-link tag="div" :to="{name:'current',query:{id:item._id}}" style="width:100%;height:100%;">
+        <router-link
+          tag="div"
+          :to="{name:'current',query:{id:item._id}}"
+          style="width:100%;height:100%;"
+        >
           <van-col span="24" class="lists">
             <img
               src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
@@ -25,7 +29,11 @@
     </van-row>
     <van-row type="flex" justify="center" class="lists-box">
       <div v-for="(item,index) in category1" :key="index" style="width:100%;">
-        <router-link tag="div" :to="{name:'current',query:{id:item._id}}" style="width:100%;height:100%;">
+        <router-link
+          tag="div"
+          :to="{name:'current',query:{id:item._id}}"
+          style="width:100%;height:100%;"
+        >
           <van-col span="24" class="lists">
             <img
               src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
@@ -51,6 +59,7 @@
             <van-cell>
               <van-card
                 :price="item.creatat"
+                currency='日期:'
                 :desc="item.desc"
                 :title="item.title"
                 thumb="https://img.yzcdn.cn/2.jpg"
@@ -65,6 +74,8 @@
 
 <script>
 import service from "../service";
+import { getDate } from "./../unitls/base.js";
+
 export default {
   data() {
     return {
@@ -120,14 +131,17 @@ export default {
         .newarticle(this.page)
         .then(res => {
           // 加载状态结束
-          let lent = parseInt(res.data.data.articles.length);
+          let list = res.data.data.articles;
+          let lent = parseInt(list.length);
           this.loading = false;
+          for (let i = 0; i < list.length; i++) {
+            this.$set(list[i], "creatat", getDate(list[i].creatat, true));
+          }
           if (lent > 0) {
-            console.log("=========" + lent);
             if (this.list.length == 0) {
-              this.list = res.data.data.articles;
+              this.list = list;
             } else {
-              this.list.push(res.data.data.articles[0]);
+              this.list.push(list[0]);
             }
             // 数据全部加载完成
           } else {
@@ -143,8 +157,9 @@ export default {
     service
       .getseccategory()
       .then(res => {
-        this.category = res.data.data.category.slice(0, 3);
-        this.category1 = res.data.data.category.slice(3, 6);
+        let datas = res.data.data.category;
+        this.category = datas.slice(0, 3);
+        this.category1 = datas.slice(3, 6);
       })
       .catch(err => {
         console.log(err);
