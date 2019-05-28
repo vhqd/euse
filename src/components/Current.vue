@@ -8,7 +8,6 @@
       <Tree-view></Tree-view>
     </van-popup>
     <div v-html="content.content" style="padding:10px 10px 50px 10px"></div>
-    
   </div>
 </template>
 
@@ -32,6 +31,16 @@ export default {
   },
   activated() {
     this.getmenus();
+      let id = this.$route.query.id;
+      if (!id) {
+        return;
+      }
+      //this.$store.commit("setMenu", true);
+  },
+  watch: {
+    $route() {
+      
+    }
   },
   mounted() {
     /*  services.testAxios().then(res => {
@@ -44,6 +53,9 @@ export default {
   methods: {
     getmenus() {
       let id = this.$route.query.id;
+      if (!id) {
+        return;
+      }
       services
         .getcate({ id: id })
         .then(res => {
@@ -52,11 +64,7 @@ export default {
             cate[i]["id"] = i + 1;
             cate[i]["type"] = "button";
             cate[i]["name"] = cate[i]["categoryname"];
-            if (i == 0) {
-              cate[i]["isExpanded"] = true;
-            } else {
-              cate[i]["isExpanded"] = false;
-            }
+            cate[i]["isExpanded"] = true;
             cate[i]["isSelected"] = false;
             cate[i]["catelevel"] = 1;
             let data = {
@@ -82,10 +90,10 @@ export default {
                 this.$message.error("失败", err);
               });
           }
-          console.log("====================");
+          console.log("==========111==========");
           console.log(cate);
           store.commit("setMenus", cate);
-          this.content = this.$store.getters.getDetailContent
+          this.content = this.$store.getters.getDetailContent;
         })
         .catch(err => {});
     },
@@ -108,14 +116,13 @@ export default {
         this.$store.state.menu = false;
       }
     },
-    content:{
+    content: {
       get() {
-         return store.getters.getDetailContent || {}
+        return store.getters.getDetailContent || {};
       },
       set() {
-        store.commit("setDetailContent",menu);
+        store.commit("setDetailContent", menu);
       }
-     
     }
   }
 };

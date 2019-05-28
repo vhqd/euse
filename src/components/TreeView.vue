@@ -14,8 +14,12 @@ export default {
   data() {
     return {
      /*  menus: this.$store.state.menusModule.menus */
-      menus: this.$store.state.menus
     };
+  },
+  computed:{
+    menus(){
+      return this.$store.state.menus
+    }
   }
 };
 </script>

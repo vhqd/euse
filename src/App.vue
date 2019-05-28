@@ -1,21 +1,23 @@
 <template>
-  <div id="app">
-    <transition :name="transitionName">
-      <!-- <keep-alive :include="keepAlive"> -->
-      <keep-alive>
-        <router-view class="Router" :style="{transition: 'all '+transitionTime+'s ease'}"></router-view>
-      </keep-alive>
-    </transition>
+  <keep-alive>
+    <div id="app">
+      <transition :name="transitionName">
+        <!-- <keep-alive :include="keepAlive"> -->
+        <keep-alive>
+          <router-view class="Router" :style="{transition: 'all '+transitionTime+'s ease'}"></router-view>
+        </keep-alive>
+      </transition>
 
-    <van-tabbar v-model="active" v-if="tabbarShow">
-      <van-tabbar-item icon="fire" @click="toHome()">主页</van-tabbar-item>
-      <van-tabbar-item icon="smile-comment" @click="toCurrent()">Javascript</van-tabbar-item>
-      <van-tabbar-item icon="manager" @click="toMe()">关于</van-tabbar-item>
-      <!-- <van-tabbar-item icon="smile-comment" dot @click="toCurrent()">Javascript</van-tabbar-item>
-      <van-tabbar-item icon="manager" info="20" @click="toMe()">我</van-tabbar-item>-->
-      <!-- <van-tabbar-item icon="friends-o" info="5" @click="toFriend()">朋友</van-tabbar-item> -->
-    </van-tabbar>
-  </div>
+      <van-tabbar v-model="active" v-if="tabbarShow">
+        <van-tabbar-item icon="fire" @click="toHome()">主页</van-tabbar-item>
+        <van-tabbar-item icon="smile-comment" @click="toCurrent()">Javascript</van-tabbar-item>
+        <van-tabbar-item icon="manager" @click="toMe()">关于</van-tabbar-item>
+        <!-- <van-tabbar-item icon="smile-comment" dot @click="toCurrent()">Javascript</van-tabbar-item>
+        <van-tabbar-item icon="manager" info="20" @click="toMe()">我</van-tabbar-item>-->
+        <!-- <van-tabbar-item icon="friends-o" info="5" @click="toFriend()">朋友</van-tabbar-item> -->
+      </van-tabbar>
+    </div>
+  </keep-alive>
 </template>
 
 <script>
@@ -24,8 +26,8 @@ export default {
   data() {
     return {
       active: 0,
-      transitionTime: .3, //Tabbar切换页面时不使用动画
-      times: .3,
+      transitionTime: 0.3, //Tabbar切换页面时不使用动画
+      times: 0.3,
       /* keepAlive: "home", //需要缓存的页面 例如首页 */
       transitionName: "slide-right" //初始过渡动画方向
     };
