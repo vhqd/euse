@@ -93,11 +93,11 @@ export default {
         path == "/me"
       ) {
         this.$store.commit("updateTabbarShow", true);
-      /*   if(isBack){//Tabbar切换没有动画其他页面切换和返回均有动画
+        /* if(isBack){//Tabbar切换没有动画其他页面切换和返回均有动画
           this.transitionTime = this.times;
         }else{
           this.transitionTime = 0 ;
-        } */
+        }  */
       } else {
         this.$store.commit("updateTabbarShow", false);
         //this.transitionTime = this.times;

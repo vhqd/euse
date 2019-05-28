@@ -90,6 +90,8 @@ export default {
     },
     onLoad() {
       this.page.currentPage += 1;
+      console.log(111111111);
+      
       //一共只能请求15条
       if (this.page.currentPage <= 5) {
         this.getNewArticle();
