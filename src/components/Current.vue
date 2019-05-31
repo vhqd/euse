@@ -31,16 +31,14 @@ export default {
   },
   activated() {
     this.getmenus();
-      let id = this.$route.query.id;
-      if (!id) {
-        return;
-      }
-      //this.$store.commit("setMenu", true);
+    let id = this.$route.query.id;
+    if (!id) {
+      return;
+    }
+    //this.$store.commit("setMenu", true);
   },
   watch: {
-    $route() {
-      
-    }
+    $route() {}
   },
   mounted() {
     /*  services.testAxios().then(res => {
