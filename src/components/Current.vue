@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <van-button type="default" @click="showFun()">默认按钮</van-button> -->
-    <van-nav-bar :title="title" @click-left="onClickMenu">
+    <van-nav-bar :title="currentName" @click-left="onClickMenu">
       <van-icon name="wap-nav" slot="left"/>
     </van-nav-bar>
     <van-popup v-model="menu" position="left" :overlay-style="overlayStyle" @close="whenClose">
@@ -19,7 +19,6 @@ import store from "../store/store.js";
 export default {
   data() {
     return {
-      title: "Jquery Api",
       //menu: this.$store.getters.getMenu,
       overlayStyle: {
         "background-color": "rgba(0, 0, 0, .1)"
@@ -30,34 +29,33 @@ export default {
     TreeView
   },
   activated() {
-    this.getmenus();
-    let id = this.$route.query.id;
-    if (!id) {
-      return;
-    }
-    //this.$store.commit("setMenu", true);
+    let queryname = this.$route.query.name;
+    let name = queryname
+      ? queryname
+      : this.$store.getters.getCategorys[0]["categoryname"];
+    this.$store.commit("setCate", name);
   },
   watch: {
-    $route() {}
+    $route(to, from) {
+      console.log(to.path, from.path);
+      this.getmenus();
+      if (from.path != "/me") {
+      }
+    }
   },
   mounted() {
-    let id = this.$route.query.id;
-    /* services.test({id:id}).then(res => {
-      console.log(res);
-      
-    }); */
-    /*  services.testAxios().then(res => {
-      if (res.status === 200) {
-        //console.log(res);
-        //console.log(res.data.links);
-      }
-    }); */
+    this.getmenus();
   },
   methods: {
     getmenus() {
       let id = this.$route.query.id;
-      if (!id) {
-        return;
+      let name = this.$route.query.name;
+      if (id) {
+        store.commit("setId", id);
+      } else if (store.getters.getId) {
+        id = store.getters.getId;
+      } else {
+        id = store.getters.getCategorys[0]["_id"];
       }
       services
         .getshowcate({ id: id })
@@ -77,11 +75,24 @@ export default {
               datas[j]["id"] = i + 1;
               datas[j]["name"] = datas[j]["title"];
               datas[j]["catelevel"] = 2;
-              datas[j]["url"] = "/current/tutorial";
+              datas[j]["url"] = `/current/?id=${datas[j]["_id"]}&name=${
+                datas[j]["title"]
+              }`;
             }
           }
           store.commit("setMenus", cate);
-          this.content = store.getters.getDetailContent;
+          let showcontent = store.getters.getDetailContent;
+          console.log(showcontent);
+
+          if (showcontent) {
+            if (id && name) {
+              store.commit("setDetailContent", cate[0]["subMenu"][0]);
+            } else {
+              store.commit("setDetailContent", showcontent);
+            }
+          } else {
+            store.commit("setDetailContent", cate[0]["subMenu"][0]);
+          }
         })
         .catch(err => {
           console.log(err);
@@ -111,8 +122,11 @@ export default {
         return store.getters.getDetailContent || {};
       },
       set() {
-        /* store.commit("setDetailContent", this.menu); */
+        store.commit("setDetailContent", this.cate);
       }
+    },
+    currentName() {
+      return this.$store.getters.getCate || "文档";
     }
   }
 };

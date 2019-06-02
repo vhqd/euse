@@ -10,7 +10,7 @@
 
       <van-tabbar v-model="active" v-if="tabbarShow">
         <van-tabbar-item icon="fire" @click="toHome()">主页</van-tabbar-item>
-        <van-tabbar-item icon="smile-comment" @click="toCurrent()">Javascript</van-tabbar-item>
+        <van-tabbar-item icon="smile-comment" @click="toCurrent()">{{currentName}}</van-tabbar-item>
         <van-tabbar-item icon="manager" @click="toMe()">关于</van-tabbar-item>
         <!-- <van-tabbar-item icon="smile-comment" dot @click="toCurrent()">Javascript</van-tabbar-item>
         <van-tabbar-item icon="manager" info="20" @click="toMe()">我</van-tabbar-item>-->
@@ -78,7 +78,7 @@ export default {
   watch: {
     $route(to, from) {
       this.initRefresh();
-      console.log(to.path);
+      //console.log(to.path);
       let path = to.path;
       // 切换动画
       let isBack = this.$router.isBack; // 监听路由变化时的状态为前进还是后退
@@ -116,6 +116,9 @@ export default {
   computed: {
     tabbarShow() {
       return this.$store.getters.getTabbarShow;
+    },
+    currentName(){
+      return this.$store.getters.getCate || '文档';
     }
   }
 };

@@ -13,7 +13,7 @@
       <div v-for="(item,index) in category" :key="index" style="width:100%;">
         <router-link
           tag="div"
-          :to="{name:'current',query:{id:item._id}}"
+          :to="{name:'current',query:{id:item._id,name:item.categoryname}}"
           style="width:100%;height:100%;"
         >
           <van-col span="24" class="lists">
@@ -31,7 +31,7 @@
       <div v-for="(item,index) in category1" :key="index" style="width:100%;">
         <router-link
           tag="div"
-          :to="{name:'current',query:{id:item._id}}"
+          :to="{name:'current',query:{id:item._id,name:item.categoryname}}"
           style="width:100%;height:100%;"
         >
           <van-col span="24" class="lists">
@@ -59,7 +59,7 @@
             <van-cell>
               <van-card
                 :price="item.creatat"
-                currency='日期:'
+                currency="日期:"
                 :desc="item.desc"
                 :title="item.title"
                 thumb="https://img.yzcdn.cn/2.jpg"
@@ -87,7 +87,7 @@ export default {
       category1: [],
       list: [],
       page: {
-        pageSize: 3,
+        pageSize: 5,
         currentPage: 0
       },
       images: [
@@ -109,8 +109,6 @@ export default {
     },
     onLoad() {
       this.page.currentPage += 1;
-      console.log(111111111);
-
       //一共只能请求15条
       if (this.page.currentPage <= 5) {
         this.getNewArticle();
@@ -158,12 +156,18 @@ export default {
       .getseccategory()
       .then(res => {
         let datas = res.data.data.category;
+        this.$store.commit("setCategorys", datas);
+        localStorage.setItem("categorys", JSON.stringify(datas));
         this.category = datas.slice(0, 3);
         this.category1 = datas.slice(3, 6);
       })
       .catch(err => {
         console.log(err);
       });
+    this.$store.commit(
+      "setCate",
+      this.$store.getters.getCategorys[0]["categoryname"]
+    );
   }
 };
 </script>
