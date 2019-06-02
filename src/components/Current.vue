@@ -41,6 +41,11 @@ export default {
     $route() {}
   },
   mounted() {
+    let id = this.$route.query.id;
+    /* services.test({id:id}).then(res => {
+      console.log(res);
+      
+    }); */
     /*  services.testAxios().then(res => {
       if (res.status === 200) {
         //console.log(res);
@@ -55,8 +60,9 @@ export default {
         return;
       }
       services
-        .getcate({ id: id })
+        .getshowcate({ id: id })
         .then(res => {
+          console.log(res);
           let cate = res.data.data.category;
           for (let i = 0; i < cate.length; i++) {
             cate[i]["id"] = i + 1;
@@ -65,53 +71,39 @@ export default {
             cate[i]["isExpanded"] = true;
             cate[i]["isSelected"] = false;
             cate[i]["catelevel"] = 1;
-            let data = {
-              _id: cate[i]._id,
-              currentPage: 1,
-              pageSize: 99
-            };
-            services
-              .getarticles(data)
-              .then(res => {
-                let datas = res.data.data.articles;
-                for (let j = 0; j < datas.length; j++) {
-                  datas[j]["type"] = "link";
-                  datas[j]["id"] = i + 1;
-                  datas[j]["name"] = datas[j]["title"];
-                  datas[j]["catelevel"] = 2;
-                  datas[j]["url"] = "/current/tutorial";
-                }
-                cate[i]["subMenu"] = datas;
-              })
-              .catch(err => {
-                console.log(err);
-                this.$message.error("失败", err);
-              });
+            let datas = cate[i]["subMenu"];
+            for (let j = 0; j < datas.length; j++) {
+              datas[j]["type"] = "link";
+              datas[j]["id"] = i + 1;
+              datas[j]["name"] = datas[j]["title"];
+              datas[j]["catelevel"] = 2;
+              datas[j]["url"] = "/current/tutorial";
+            }
           }
-          console.log("==========111==========");
-          console.log(cate);
           store.commit("setMenus", cate);
-          this.content = this.$store.getters.getDetailContent;
+          this.content = store.getters.getDetailContent;
         })
-        .catch(err => {});
+        .catch(err => {
+          console.log(err);
+        });
     },
     showFun() {
       this.$router.push("/detail");
     },
     onClickMenu() {
-      this.$store.commit("setMenu", true);
+      store.commit("setMenu", true);
     },
     whenClose() {
-      this.$store.commit("setMenu", false);
+      store.commit("setMenu", false);
     }
   },
   computed: {
     menu: {
       get() {
-        return this.$store.getters.getMenu;
+        return store.getters.getMenu;
       },
       set() {
-        this.$store.state.menu = false;
+        store.state.menu = false;
       }
     },
     content: {
@@ -119,7 +111,7 @@ export default {
         return store.getters.getDetailContent || {};
       },
       set() {
-        store.commit("setDetailContent", menu);
+        /* store.commit("setDetailContent", this.menu); */
       }
     }
   }

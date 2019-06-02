@@ -16,5 +16,8 @@ export default {
     },
     getarticles:(data)=>{
         return axios.post(host+'/api/article/articles',data)
+    },
+    getshowcate:(data)=>{
+        return axios.post(host+'/api/category/getshowcate',data)
     }
 }
