@@ -13,7 +13,7 @@ export default new Vuex.Store({
         id:null,
         menu: false,//左侧menu
         cate:'文档',//当前栏目名
-        categorys:localStorage.getItem('categorys') ? JSON.parse(localStorage.getItem('categorys')) : [],
+        categorys:localStorage.getItem('categorys') ? localStorage.getItem('categorys') : '',
         tabbarPath: ['/', '/home', '/current', '/me'],//用于Tabbar的active效果
       /*   tabbarPath: ['/', '/home', '/current', '/friend', '/me'],//用于Tabbar的active效果 */
         detailContent:null,

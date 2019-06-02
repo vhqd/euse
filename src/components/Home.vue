@@ -157,17 +157,17 @@ export default {
       .then(res => {
         let datas = res.data.data.category;
         this.$store.commit("setCategorys", datas);
-        localStorage.setItem("categorys", JSON.stringify(datas));
+        localStorage.setItem("categorys", datas[0]['categoryname']);
         this.category = datas.slice(0, 3);
         this.category1 = datas.slice(3, 6);
+        this.$store.commit(
+          "setCate",
+          this.$store.getters.getCategorys[0]["categoryname"]
+        );
       })
       .catch(err => {
         console.log(err);
       });
-    this.$store.commit(
-      "setCate",
-      this.$store.getters.getCategorys[0]["categoryname"]
-    );
   }
 };
 </script>

@@ -32,14 +32,18 @@ export default {
     let queryname = this.$route.query.name;
     let name = queryname
       ? queryname
-      : this.$store.getters.getCategorys[0]["categoryname"];
+      : localStorage.getItem('categorys');
     this.$store.commit("setCate", name);
   },
   watch: {
     $route(to, from) {
-      console.log(to.path, from.path);
-      this.getmenus();
-      if (from.path != "/me") {
+      /* if (to.path != "/detail") {
+        //防止进去过detail页面后sotre里面的id被修改导致回到current页面id错误
+        this.getmenus();
+      } */
+      if (to.path == "/current") {
+        //防止进去过detail页面后sotre里面的id被修改导致回到current页面id错误
+        this.getmenus();
       }
     }
   },
@@ -50,6 +54,10 @@ export default {
     getmenus() {
       let id = this.$route.query.id;
       let name = this.$route.query.name;
+      if(name){
+        localStorage.setItem("categorys",name);
+        store.commit('setCate',name)
+      }
       if (id) {
         store.commit("setId", id);
       } else if (store.getters.getId) {
@@ -82,15 +90,23 @@ export default {
           }
           store.commit("setMenus", cate);
           let showcontent = store.getters.getDetailContent;
-          console.log(showcontent);
-
           if (showcontent) {
             if (id && name) {
-              store.commit("setDetailContent", cate[0]["subMenu"][0]);
+              //切换过category后加载新的第一项数据
+              if (cate.length > 0) {
+                store.commit("setDetailContent", cate[0]["subMenu"][0]);
+              } else {
+                let tip = {
+                  content: "暂无内容"
+                };
+                store.commit("setDetailContent", tip);
+              }
             } else {
+              //显示缓存的数据
               store.commit("setDetailContent", showcontent);
             }
           } else {
+            //首次加载直接切换Tabbar默认加载获取数据的第一项
             store.commit("setDetailContent", cate[0]["subMenu"][0]);
           }
         })
