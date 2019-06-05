@@ -30,9 +30,11 @@ export default {
   },
   activated() {
     let queryname = this.$route.query.name;
-    let name = queryname
-      ? queryname
-      : localStorage.getItem('categorys');
+    let isallcate = this.$route.query.isallcate;
+    if (isallcate) {
+      store.commit("setMenu", true);
+    }
+    let name = queryname ? queryname : localStorage.getItem("categorys");
     this.$store.commit("setCate", name);
   },
   watch: {
@@ -54,9 +56,9 @@ export default {
     getmenus() {
       let id = this.$route.query.id;
       let name = this.$route.query.name;
-      if(name){
-        localStorage.setItem("categorys",name);
-        store.commit('setCate',name)
+      if (name) {
+        localStorage.setItem("categorys", name);
+        store.commit("setCate", name);
       }
       if (id) {
         store.commit("setId", id);

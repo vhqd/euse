@@ -43,7 +43,9 @@ export default {
     this.getonearticle({ id: id });
     console.log(id);
   },
-  mounted() {}
+  mounted() {
+    this.$store.commit("updateTabbarShow", false);
+  }
 };
 </script>
 

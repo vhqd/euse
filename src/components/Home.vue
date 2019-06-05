@@ -44,6 +44,20 @@
           </van-col>
         </router-link>
       </div>
+        <router-link
+          tag="div"
+          to="/allcate"
+          style="width:100%;height:100%;"
+        >
+          <van-col span="24" class="lists">
+            <img
+              src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
+              alt
+              width="50%"
+            >
+            <span>更多</span>
+          </van-col>
+        </router-link>
     </van-row>
     <div class="article-list">
       <p class="new-info">最近更新</p>
@@ -85,6 +99,7 @@ export default {
       finished: false,
       category: [],
       category1: [],
+      category2:[],
       list: [],
       page: {
         pageSize: 5,
@@ -159,7 +174,7 @@ export default {
         this.$store.commit("setCategorys", datas);
         localStorage.setItem("categorys", datas[0]['categoryname']);
         this.category = datas.slice(0, 3);
-        this.category1 = datas.slice(3, 6);
+        this.category1 = datas.slice(3, 5);
         this.$store.commit(
           "setCate",
           this.$store.getters.getCategorys[0]["categoryname"]

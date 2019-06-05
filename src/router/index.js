@@ -5,6 +5,7 @@ import Current from '@/components/Current'
 import Detail from '@/components/Detail'
 import Friend from '@/components/Friend'
 import Me from '@/components/Me'
+import Allcate from '@/components/Allcate'
 
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
       path: '/detail',
       name: 'detail',
       component: Detail
+    },
+    {
+      path: '/allcate',
+      name: 'allcate',
+      component: Allcate
     }
   ]
 })

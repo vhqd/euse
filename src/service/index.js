@@ -19,5 +19,8 @@ export default {
     },
     getshowcate:(data)=>{
         return axios.post(host+'/api/category/getshowcate',data)
+    },
+    getallcate:()=>{
+        return axios.get(host+'/api/category/getlevelthree')
     }
 }
