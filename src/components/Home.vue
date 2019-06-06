@@ -17,12 +17,7 @@
           style="width:100%;height:100%;"
         >
           <van-col span="24" class="lists">
-            <img
-              :src="item.cateimg"
-              alt
-              width="50%"
-              style="border:0 none;border-radius:10px;"
-            >
+            <img :src="item.imgurl" alt width="50%" class="imgcls">
             <span>{{item.categoryname}}</span>
           </van-col>
         </router-link>
@@ -36,30 +31,22 @@
           style="width:100%;height:100%;"
         >
           <van-col span="24" class="lists">
-            <img
-              :src="item.cateimg"
-              alt
-              width="50%"
-              style="border:0 none;border-radius:10px;"
-            >
+            <img :src="item.imgurl" alt width="50%" class="imgcls">
             <span>{{item.categoryname}}</span>
           </van-col>
         </router-link>
       </div>
-        <router-link
-          tag="div"
-          to="/allcate"
-          style="width:100%;height:100%;"
-        >
-          <van-col span="24" class="lists">
-            <img
-              src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
-              alt
-              width="50%"
-            >
-            <span>更多</span>
-          </van-col>
-        </router-link>
+      <router-link tag="div" to="/allcate" style="width:100%;height:100%;">
+        <van-col span="24" class="lists">
+          <img
+            src="http://127.0.0.1:3000/server/public\images\2019-06-06\more.png"
+            alt
+            width="50%"
+            class="imgcls"
+          >
+          <span>更多</span>
+        </van-col>
+      </router-link>
     </van-row>
     <div class="article-list">
       <p class="new-info">最近更新</p>
@@ -101,8 +88,7 @@ export default {
       finished: false,
       category: [],
       category1: [],
-      cateimg:["./../../static/images/cover_javascript.png","./../../static/images/cover_nodejs.png","./../../static/images/cover_javascript.png","./../../static/images/cover_html5.png","./../../static/images/cover_css3.png","./../../static/images/cover_javascript.png"],
-      category2:[],
+      category2: [],
       list: [],
       page: {
         pageSize: 5,
@@ -175,12 +161,9 @@ export default {
       .then(res => {
         let datas = res.data.data.category;
         this.$store.commit("setCategorys", datas);
-        localStorage.setItem("categorys", datas[0]['categoryname']);
-        for(let i = 0; i < datas.length ; i++){
-          datas[i]['cateimg'] = this.cateimg[i]
-        }
+        localStorage.setItem("categorys", datas[0]["categoryname"]);
         console.log(datas);
-        
+
         this.category = datas.slice(0, 3);
         this.category1 = datas.slice(3, 5);
         this.$store.commit(
@@ -198,6 +181,10 @@ export default {
 <style scoped lang='less'>
 .van-swipe {
   height: 3.6rem !important;
+}
+.imgcls {
+  border: 0 none;
+  border-radius: 10px;
 }
 .lists-box {
   margin-top: 0.15rem;
