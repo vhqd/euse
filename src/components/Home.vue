@@ -76,7 +76,7 @@
                 currency="日期:"
                 :desc="item.desc"
                 :title="item.title"
-                thumb="https://img.yzcdn.cn/2.jpg"
+                :thumb="item.imgurl"
               />
             </van-cell>
           </router-link>

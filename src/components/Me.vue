@@ -1,6 +1,6 @@
 <template>
     <div>
-        我的页面
+        <van-nav-bar title="关于我们"/>
     </div>
 </template>
 

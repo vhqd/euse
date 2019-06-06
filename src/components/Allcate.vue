@@ -1,6 +1,6 @@
 <template>
   <div class="allcate">
-    <van-nav-bar title="所有栏目" left-text="返回" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="所有栏目" left-arrow @click-left="onClickLeft"/>
     <van-tabs @click="onClick">
       <van-tab v-for="(item,index) in category" :title="item.categoryname" :key="index">
         <van-row type="flex">

@@ -2,7 +2,6 @@
   <div>
     <van-nav-bar
       :title="article.title"
-      left-text="返回"
       left-arrow
       @click-left="onClickLeft"
       :fixed="true"
