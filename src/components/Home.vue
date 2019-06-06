@@ -18,9 +18,10 @@
         >
           <van-col span="24" class="lists">
             <img
-              src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
+              :src="item.cateimg"
               alt
               width="50%"
+              style="border:0 none;border-radius:10px;"
             >
             <span>{{item.categoryname}}</span>
           </van-col>
@@ -36,9 +37,10 @@
         >
           <van-col span="24" class="lists">
             <img
-              src="//m.360buyimg.com/mobilecms/s120x120_jfs/t22228/270/207441984/11564/88140ab7/5b03fae3N67f78fe3.png.webp"
+              :src="item.cateimg"
               alt
               width="50%"
+              style="border:0 none;border-radius:10px;"
             >
             <span>{{item.categoryname}}</span>
           </van-col>
@@ -99,6 +101,7 @@ export default {
       finished: false,
       category: [],
       category1: [],
+      cateimg:["./../../static/images/cover_javascript.png","./../../static/images/cover_nodejs.png","./../../static/images/cover_javascript.png","./../../static/images/cover_html5.png","./../../static/images/cover_css3.png","./../../static/images/cover_javascript.png"],
       category2:[],
       list: [],
       page: {
@@ -173,6 +176,11 @@ export default {
         let datas = res.data.data.category;
         this.$store.commit("setCategorys", datas);
         localStorage.setItem("categorys", datas[0]['categoryname']);
+        for(let i = 0; i < datas.length ; i++){
+          datas[i]['cateimg'] = this.cateimg[i]
+        }
+        console.log(datas);
+        
         this.category = datas.slice(0, 3);
         this.category1 = datas.slice(3, 5);
         this.$store.commit(
@@ -207,8 +215,8 @@ export default {
   text-align: center;
 }
 .lists img {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 1rem;
+  height: 1rem;
   align-content: center;
 }
 .lists span {
