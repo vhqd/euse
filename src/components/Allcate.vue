@@ -78,7 +78,7 @@ export default {
 };
 </script>
 <style scoped>
-.flexwrapbox {
+.flexwrapbox,.van-row--flex {
   flex-wrap: wrap;
 }
 .flexwrapbox {

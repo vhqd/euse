@@ -15,6 +15,18 @@
           tag="div"
           :to="{name:'current',query:{id:item._id,name:item.categoryname}}"
           style="width:100%;height:100%;"
+          v-if="index != 2"
+        >
+          <van-col span="24" class="lists">
+            <img :src="item.imgurl" alt width="50%" class="imgcls">
+            <span>{{item.categoryname}}</span>
+          </van-col>
+        </router-link>
+         <router-link
+          tag="div"
+          :to="{name:'catelist',query:{id:item._id,name:item.categoryname}}"
+          style="width:100%;height:100%;"
+          v-if="index == 2"
         >
           <van-col span="24" class="lists">
             <img :src="item.imgurl" alt width="50%" class="imgcls">
