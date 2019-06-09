@@ -155,7 +155,7 @@ export default {
   width: 65%;
   height: 100%;
   padding-bottom: 1rem;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 .van-icon-wap-nav:before {
   font-size: 0.5rem;

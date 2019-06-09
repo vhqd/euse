@@ -91,5 +91,6 @@ export default {
 }
 .flexwrapbox p {
   padding-top: 5px;
+  text-align: center;
 }
 </style>
